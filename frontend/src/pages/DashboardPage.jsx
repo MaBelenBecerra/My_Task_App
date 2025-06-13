@@ -80,29 +80,40 @@ export default function DashboardPage() {
     }
   };
 
-  if (loading) return <p className="text-gray-700">Loading tasks...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-secondary text-xl animate-pulse">Cargando tareas...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Dashboard</h1>
-      {error && <p className="text-red-500">{error}</p>}
+    <div>
+      <h1 className="text-4xl font-bold text-secondary mb-8">Dashboard</h1>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
       
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-700 mb-2">Añadir Nueva Tarea</h2>
-        <TaskForm categories={categories} onSubmit={handleCreateTask} />
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-2xl font-bold text-text-dark mb-4">Añadir Nueva Tarea</h2>
+          <TaskForm categories={categories} onSubmit={handleCreateTask} />
+        </div>
 
-      <hr className="my-4" />
-
-      <div>
-        <h2 className="text-xl font-semibold text-gray-700 mb-2">Tus Tareas</h2>
-        <TaskList 
-          tasks={tasks} 
-          categories={categories}
-          onUpdate={handleUpdateTask}
-          onDelete={handleDeleteTask}
-          onToggle={handleToggleTask}
-        />
+        <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-2xl font-bold text-text-dark mb-4">Tus Tareas</h2>
+          <TaskList 
+            tasks={tasks} 
+            categories={categories}
+            onUpdate={handleUpdateTask}
+            onDelete={handleDeleteTask}
+            onToggle={handleToggleTask}
+          />
+        </div>
       </div>
     </div>
   );

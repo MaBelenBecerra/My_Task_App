@@ -4,9 +4,9 @@ import Navbar from '../components/Navbar';
 
 export default function Layout() {
   return (
-    <div className="bg-pink-50 min-h-screen">
+    <div className="bg-background text-text-dark min-h-screen">
       <Navbar />
-      <main className="container mx-auto py-6">
+      <main className="container mx-auto p-4 md:p-8">
         <Outlet />
       </main>
     </div>

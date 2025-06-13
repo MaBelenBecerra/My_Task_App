@@ -22,36 +22,44 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50">
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h1 className="block text-gray-700 text-center text-2xl font-bold mb-4">Crear Cuenta</h1>
-        <form onSubmit={handleSubmit} className="mb-4">
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-            type="email"
-            placeholder="correo@ejemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 m-4">
+        <h1 className="text-3xl font-bold text-center text-secondary mb-6">Crear Cuenta</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-text-dark mb-1">Correo Electrónico</label>
+            <input
+              id="email"
+              className="w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              type="email"
+              placeholder="correo@ejemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-text-dark mb-1">Contraseña</label>
+            <input
+              id="password"
+              className="w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
           <button
-            className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="w-full bg-primary hover:bg-secondary text-text-light font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
             type="submit"
           >
             Registrarse
           </button>
         </form>
-        {error && <p className="text-red-500 text-sm italic">{error}</p>}
-        <p className="text-center">
-          ¿Ya tienes una cuenta? <Link to="/login" className="text-pink-500 hover:text-pink-700">Inicia Sesión</Link>
+        {error && <p className="mt-4 text-center text-red-500 text-sm italic">{error}</p>}
+        <p className="mt-6 text-center text-sm">
+          ¿Ya tienes una cuenta? <Link to="/login" className="font-semibold text-secondary hover:text-accent">Inicia Sesión</Link>
         </p>
       </div>
     </div>

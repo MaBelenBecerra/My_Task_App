@@ -53,7 +53,7 @@ export default function CategoriesPage() {
   };
 
   const handleDeleteCategory = async (id) => {
-    if (window.confirm('Are you sure you want to delete this category?')) {
+    if (window.confirm('¿Estás segura de que quieres eliminar esta categoría? Esto también eliminará las tareas asociadas.')) {
       try {
         const { error } = await supabase.from('categorias').delete().eq('id', id);
         if (error) throw error;
@@ -86,50 +86,78 @@ export default function CategoriesPage() {
     setEditingCategoryName(category.nombre);
   };
 
-  if (loading) return <p className="text-gray-700">Loading categories...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-secondary text-xl animate-pulse">Cargando categorías...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Categories</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      
-      <form onSubmit={handleCreateCategory} className="mb-4">
-        <input
-          type="text"
-          placeholder="New category name"
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <button type="submit"  className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Category</button>
-      </form>
+    <div>
+      <h1 className="text-4xl font-bold text-secondary mb-8">Gestionar Categorías</h1>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
 
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id} className="mb-2 p-2 rounded shadow-sm bg-white flex items-center justify-between">
-            {editingCategoryId === category.id ? (
-              <div className="flex items-center">
-                <input 
-                  type="text"
-                  value={editingCategoryName}
-                  onChange={(e) => setEditingCategoryName(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
-                />
-                <button onClick={() => handleUpdateCategory(category.id)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">Save</button>
-                <button onClick={() => setEditingCategoryId(null)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <span className="mr-4">{category.nombre}</span>
-                <div>
-                  <button onClick={() => startEditing(category)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">Edit</button>
-                  <button onClick={() => handleDeleteCategory(category.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Delete</button>
+      <div className="bg-white p-6 rounded-xl shadow-md mb-8">
+        <h2 className="text-2xl font-bold text-text-dark mb-4">Añadir Nueva Categoría</h2>
+        <form onSubmit={handleCreateCategory} className="flex items-center space-x-4">
+          <input
+            type="text"
+            placeholder="Nombre de la nueva categoría"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            className="flex-grow w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-primary hover:bg-secondary text-text-light font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 shrink-0"
+          >
+            Añadir
+          </button>
+        </form>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-md">
+        <h2 className="text-2xl font-bold text-text-dark mb-4">Tus Categorías</h2>
+        <ul className="space-y-3">
+          {categories.map((category) => (
+            <li key={category.id} className="p-3 rounded-lg bg-gray-50 flex items-center justify-between transition-all">
+              {editingCategoryId === category.id ? (
+                <div className="flex-grow flex items-center space-x-2">
+                  <input
+                    type="text"
+                    value={editingCategoryName}
+                    onChange={(e) => setEditingCategoryName(e.target.value)}
+                    className="flex-grow w-full px-4 py-2 text-text-dark bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                  <button onClick={() => handleUpdateCategory(category.id)} className="text-xs font-semibold px-3 py-1 rounded-md bg-green-100 text-green-800 hover:bg-green-200 transition-colors shrink-0">Guardar</button>
+                  <button onClick={() => setEditingCategoryId(null)} className="text-xs font-semibold px-3 py-1 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors shrink-0">Cancelar</button>
                 </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+              ) : (
+                <>
+                  <span className="font-medium text-text-dark">{category.nombre}</span>
+                  <div className="flex items-center space-x-2">
+                    <button onClick={() => startEditing(category)} className="text-xs font-semibold px-3 py-1 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors">Editar</button>
+                    <button onClick={() => handleDeleteCategory(category.id)} className="text-xs font-semibold px-3 py-1 rounded-md bg-red-100 text-red-800 hover:bg-red-200 transition-colors">Eliminar</button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+        {categories.length === 0 && (
+          <div className="text-center py-6">
+            <p className="text-text-dark">No has creado ninguna categoría todavía.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

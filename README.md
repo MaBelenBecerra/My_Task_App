@@ -88,7 +88,7 @@ Sigue estos pasos para levantar el proyecto en tu entorno local.
     ```bash
     npm run dev
     ```
-    La aplicación estará disponible en `http://localhost:5173` (o el puerto que indique Vite).
+    La aplicación estará disponible en `http://localhost:5173`
 
 ### Cómo Ejecutar las Pruebas
 
@@ -111,7 +111,7 @@ Para la gestión de la conexión con Supabase, se implementó una combinación d
 
 ```
 my-task-app/
-├── backend/            # Opcional, para lógica de servidor si fuera necesaria
+├── backend/            # Para lógica de servidor si fuera necesaria
 │   └── server.js
 ├── frontend/
 │   ├── public/         # Archivos estáticos
@@ -126,7 +126,7 @@ my-task-app/
 │   └── unit/         # Pruebas unitarias
 ├── .env                # Variables de entorno (ignoradas por Git)
 ├── .gitignore
-├── README.md           # Este archivo
+├── README.md          
 ├── package.json
 └── vite.config.js      # Configuración de Vite y Vitest
 ```
@@ -138,6 +138,5 @@ my-task-app/
 3.  **Como usuario registrado, quiero crear una nueva tarea con título, descripción y fecha límite, y asignarla a una categoría,** para poder dar seguimiento a mis pendientes de forma clara y ordenada.
 
 ## 8. Lecciones Aprendidas
-
-*(Esta sección es para que la completes con tus reflexiones personales sobre el desarrollo del proyecto. Por ejemplo: los desafíos que enfrentaste, lo que aprendiste sobre React, Supabase, pruebas, etc.)*
+No dejar todo a último minuto ;>
 

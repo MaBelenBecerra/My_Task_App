@@ -86,41 +86,45 @@ export default function CategoriesPage() {
     setEditingCategoryName(category.nombre);
   };
 
-  if (loading) return <p>Loading categories...</p>;
+  if (loading) return <p className="text-gray-700">Loading categories...</p>;
 
   return (
-    <div>
-      <h1>Categories</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">Categories</h1>
+      {error && <p className="text-red-500">{error}</p>}
       
-      <form onSubmit={handleCreateCategory}>
+      <form onSubmit={handleCreateCategory} className="mb-4">
         <input
           type="text"
           placeholder="New category name"
           value={newCategoryName}
           onChange={(e) => setNewCategoryName(e.target.value)}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        <button type="submit">Add Category</button>
+        <button type="submit"  className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Category</button>
       </form>
 
       <ul>
         {categories.map((category) => (
-          <li key={category.id}>
+          <li key={category.id} className="mb-2 p-2 rounded shadow-sm bg-white flex items-center justify-between">
             {editingCategoryId === category.id ? (
-              <div>
+              <div className="flex items-center">
                 <input 
                   type="text"
                   value={editingCategoryName}
                   onChange={(e) => setEditingCategoryName(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
                 />
-                <button onClick={() => handleUpdateCategory(category.id)}>Save</button>
-                <button onClick={() => setEditingCategoryId(null)}>Cancel</button>
+                <button onClick={() => handleUpdateCategory(category.id)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">Save</button>
+                <button onClick={() => setEditingCategoryId(null)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
               </div>
             ) : (
-              <div>
-                {category.nombre}
-                <button onClick={() => startEditing(category)}>Edit</button>
-                <button onClick={() => handleDeleteCategory(category.id)}>Delete</button>
+              <div className="flex items-center">
+                <span className="mr-4">{category.nombre}</span>
+                <div>
+                  <button onClick={() => startEditing(category)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">Edit</button>
+                  <button onClick={() => handleDeleteCategory(category.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Delete</button>
+                </div>
               </div>
             )}
           </li>

@@ -3,7 +3,7 @@ import LoginPage from '../pages/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, test, expect, vi } from 'vitest';
 
-// Mock the supabase service to avoid initializing the client
+
 vi.mock('../services/supabase', () => ({
   supabase: {
     auth: {

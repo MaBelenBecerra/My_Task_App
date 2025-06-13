@@ -14,7 +14,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<DashboardPage />} />
-          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
         </Route>
       </Route>
       <Route path="/login" element={<LoginPage />} />

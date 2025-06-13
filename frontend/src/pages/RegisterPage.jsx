@@ -6,11 +6,13 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
@@ -18,48 +20,64 @@ export default function RegisterPage() {
       navigate('/login');
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 m-4">
-        <h1 className="text-3xl font-bold text-center text-secondary mb-6">Crear Cuenta</h1>
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <div className="w-full max-w-sm p-8 space-y-8 bg-white rounded-2xl shadow-lg">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-text-dark">REGISTER</h1>
+          <div className="w-24 h-1 mx-auto mt-2 bg-secondary"></div>
+        </div>
+
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
+            <p>{error}</p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-text-dark mb-1">Correo Electrónico</label>
+          <div className="relative">
             <input
               id="email"
-              className="w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               type="email"
-              placeholder="correo@ejemplo.com"
+              name="email"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-text-dark mb-1">Contraseña</label>
+          <div className="relative">
             <input
               id="password"
-              className="w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               type="password"
-              placeholder="Contraseña"
+              name="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
           </div>
           <button
-            className="w-full bg-primary hover:bg-secondary text-text-light font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
             type="submit"
+            className="w-full bg-secondary hover:bg-accent text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105 duration-300"
+            disabled={loading}
           >
-            Registrarse
+            {loading ? 'REGISTRANDO...' : 'REGISTER'}
           </button>
         </form>
-        {error && <p className="mt-4 text-center text-red-500 text-sm italic">{error}</p>}
-        <p className="mt-6 text-center text-sm">
-          ¿Ya tienes una cuenta? <Link to="/login" className="font-semibold text-secondary hover:text-accent">Inicia Sesión</Link>
+
+        <p className="mt-8 text-center text-sm text-gray-600">
+          ¿Ya tienes una cuenta?{' '}
+          <Link to="/login" className="font-medium text-secondary hover:text-accent">
+            Inicia Sesión
+          </Link>
         </p>
       </div>
     </div>

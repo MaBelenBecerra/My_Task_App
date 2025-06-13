@@ -2,7 +2,7 @@ import { createTask } from '../services/taskService';
 import { supabase } from '../services/supabase';
 import { vi, describe, test, expect, beforeEach } from 'vitest';
 
-// Mock the supabase client
+
 vi.mock('../services/supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -37,7 +37,7 @@ describe('taskService', () => {
       user_id: 'fake-user',
     };
 
-    // Configure the mock chain for this specific test
+
     const singleMock = vi.fn().mockResolvedValue({ data: { id: 1, ...expectedPayload }, error: null });
     const selectMock = vi.fn().mockReturnValue({ single: singleMock });
     const insertMock = vi.fn().mockReturnValue({ select: selectMock });

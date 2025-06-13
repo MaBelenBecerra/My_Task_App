@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <div className="bg-background text-text-dark min-h-screen">
       <Navbar />
-      <main className="container mx-auto p-4 md:p-8">
+      <main className="container mx-auto px-4 py-8 md:px-8">
         <Outlet />
       </main>
     </div>

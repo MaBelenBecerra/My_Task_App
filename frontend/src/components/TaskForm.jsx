@@ -13,21 +13,20 @@ export default function TaskForm({ categories, onSubmit, initialTask = null }) {
       setDueDate(initialTask.fecha ? new Date(initialTask.fecha).toISOString().split('T')[0] : '');
       setCategoryId(initialTask.categoria_id || '');
     } else {
-      // Set default category if available and not editing
-      if (categories.length > 0) {
-        setCategoryId(categories[0].id);
-      }
+      setTitle('');
+      setDescription('');
+      setDueDate('');
+      setCategoryId(categories.length > 0 ? categories[0].id : '');
     }
   }, [initialTask, categories]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim() || !categoryId) {
-      alert('El título y la categoría son obligatorios.');
+      alert('Por favor, completa el título y la categoría.');
       return;
     }
     onSubmit({ title, description, dueDate, categoryId });
-    // Reset form if not editing
     if (!initialTask) {
       setTitle('');
       setDescription('');
@@ -36,47 +35,47 @@ export default function TaskForm({ categories, onSubmit, initialTask = null }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="task-title" className="block text-sm font-medium text-text-dark">Título</label>
+        <label htmlFor="task-title" className="block text-sm font-medium text-gray-500 mb-1">Título</label>
         <input
           id="task-title"
           type="text"
-          placeholder="Título de la tarea"
+          placeholder="Ej: Ir al gimnasio"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           required
         />
       </div>
       <div>
-        <label htmlFor="task-description" className="block text-sm font-medium text-text-dark">Descripción</label>
+        <label htmlFor="task-description" className="block text-sm font-medium text-gray-500 mb-1">Descripción</label>
         <textarea
           id="task-description"
-          placeholder="Añade una descripción..."
+          placeholder="Añade más detalles..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           rows="3"
         />
       </div>
       <div>
-        <label htmlFor="task-dueDate" className="block text-sm font-medium text-text-dark">Fecha de Vencimiento</label>
+        <label htmlFor="task-dueDate" className="block text-sm font-medium text-gray-500 mb-1">Fecha Límite</label>
         <input
           id="task-dueDate"
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="mt-1 w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
       <div>
-        <label htmlFor="task-category" className="block text-sm font-medium text-text-dark">Categoría</label>
+        <label htmlFor="task-category" className="block text-sm font-medium text-gray-500 mb-1">Categoría</label>
         <select
           id="task-category"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="mt-1 w-full px-4 py-2 text-text-dark bg-gray-100 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 text-text-dark bg-transparent border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           required
         >
           <option value="" disabled>Selecciona una categoría</option>
@@ -89,7 +88,7 @@ export default function TaskForm({ categories, onSubmit, initialTask = null }) {
       </div>
       <button 
         type="submit"
-        className="w-full bg-primary hover:bg-secondary text-text-light font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+        className="w-full bg-secondary hover:bg-accent text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105 duration-300"
       >
         {initialTask ? 'Actualizar Tarea' : 'Añadir Tarea'}
       </button>

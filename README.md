@@ -31,14 +31,12 @@ Sigue estos pasos para levantar el proyecto en tu entorno local.
 
 ### Pasos de Instalación
 
-1.  **Clona el repositorio** (si aplica) o descarga los archivos.
-
-2.  **Instala las dependencias** del proyecto:
+1.  **Instala las dependencias** del proyecto:
     ```bash
     npm install
     ```
 
-3.  **Configura tus variables de entorno**:
+2.  **Configura tus variables de entorno**:
     - Crea un archivo `.env` en la raíz del proyecto.
     - Añade tus credenciales de Supabase (las encuentras en `Project Settings > API` en tu dashboard de Supabase).
     ```
@@ -46,49 +44,10 @@ Sigue estos pasos para levantar el proyecto en tu entorno local.
     VITE_SUPABASE_ANON_KEY="TU_CLAVE_ANON_DE_SUPABASE"
     ```
 
-4.  **Configura las tablas en Supabase**:
-    - Ve a `SQL Editor` en tu dashboard de Supabase y ejecuta el siguiente script para crear las tablas `categorias` y `tareas`.
-
-    ```sql
-    -- Tabla para Categorías
-    CREATE TABLE categorias (
-      id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      nombre TEXT NOT NULL,
-      user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL
-    );
-
-    -- Tabla para Tareas
-    CREATE TABLE tareas (
-      id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      titulo TEXT NOT NULL,
-      descripcion TEXT,
-      fecha DATE,
-      estado BOOLEAN DEFAULT FALSE NOT NULL,
-      categoria_id BIGINT REFERENCES public.categorias(id) ON DELETE SET NULL,
-      user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL
-    );
-
-    -- Habilitar Row Level Security (RLS)
-    ALTER TABLE categorias ENABLE ROW LEVEL SECURITY;
-    ALTER TABLE tareas ENABLE ROW LEVEL SECURITY;
-
-    -- Políticas de seguridad para que los usuarios solo vean/modifiquen sus propios datos
-    CREATE POLICY "Los usuarios pueden ver sus propias categorías" ON categorias FOR SELECT USING (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden insertar sus propias categorías" ON categorias FOR INSERT WITH CHECK (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden actualizar sus propias categorías" ON categorias FOR UPDATE USING (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden eliminar sus propias categorías" ON categorias FOR DELETE USING (auth.uid() = user_id);
-
-    CREATE POLICY "Los usuarios pueden ver sus propias tareas" ON tareas FOR SELECT USING (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden insertar sus propias tareas" ON tareas FOR INSERT WITH CHECK (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden actualizar sus propias tareas" ON tareas FOR UPDATE USING (auth.uid() = user_id);
-    CREATE POLICY "Los usuarios pueden eliminar sus propias tareas" ON tareas FOR DELETE USING (auth.uid() = user_id);
-    ```
-
-5.  **Inicia la aplicación** en modo de desarrollo:
+3.  **Inicia la aplicación** en modo de desarrollo:
     ```bash
     npm run dev
     ```
-    La aplicación estará disponible en `http://localhost:5173`
 
 ### Cómo Ejecutar las Pruebas
 
@@ -110,25 +69,45 @@ Para la gestión de la conexión con Supabase, se implementó una combinación d
 ## 6. Estructura del Proyecto
 
 ```
-my-task-app/
-├── backend/            # Para lógica de servidor si fuera necesaria
-│   └── server.js
+MY_TASK_APP/
+├── backend/
+│   └──
 ├── frontend/
-│   ├── public/         # Archivos estáticos
+│   ├── public/
+│   │   └── vite.svg
 │   └── src/
-│       ├── components/ # Componentes reutilizables (Navbar, TaskList, etc.)
-│       ├── context/    # Contexto de React (AuthContext)
-│       ├── pages/      # Componentes de página (Dashboard, Login, etc.)
-│       ├── services/   # Módulo de Supabase (Patrón Singleton)
-│       ├── App.jsx     # Componente raíz con el enrutador
-│       └── main.jsx    # Punto de entrada de la aplicación React
-├── tests/
-│   └── unit/         # Pruebas unitarias
-├── .env                # Variables de entorno (ignoradas por Git)
+│       ├── assets/
+│       │   └── react.svg
+│       ├── components/
+│       │   ├── Navbar.jsx
+│       │   ├── ProtectedRoute.jsx
+│       │   ├── TaskForm.jsx
+│       │   ├── TaskItem.jsx
+│       │   └── TaskList.jsx
+│       ├── context/
+│       │   └── AuthContext.jsx
+│       ├── pages/
+│       │   ├── CategoriesPage.jsx
+│       │   ├── DashboardPage.jsx
+│       │   ├── Layout.jsx
+│       │   ├── LoginPage.jsx
+│       │   ├── NotFoundPage.jsx
+│       │   └── RegisterPage.jsx
+│       ├── services/
+│       │   └── supabase.js
+│       ├── App.css
+│       ├── App.jsx
+│       ├── index.css
+│       └── main.jsx
+├── .env
+├── .env.example
 ├── .gitignore
-├── README.md          
+├── README.md
+├── package-lock.json
 ├── package.json
-└── vite.config.js      # Configuración de Vite y Vitest
+├── postcss.config.js
+├── tailwind.config.js
+└── vite.config.js
 ```
 
 ## 7. Historias de Usuario
@@ -138,5 +117,10 @@ my-task-app/
 3.  **Como usuario registrado, quiero crear una nueva tarea con título, descripción y fecha límite, y asignarla a una categoría,** para poder dar seguimiento a mis pendientes de forma clara y ordenada.
 
 ## 8. Lecciones Aprendidas
-No dejar todo a último minuto ;>
+- Aunque el proyecto no parecía tan grande, entre aprender nuevas herramientas, resolver errores y probar todo, me di cuenta de que es importante dejar tiempo para imprevistos y no subestimar las tareas.
+- No dejar todo a último minuto ;> 
+- Usar Supabase facilita mucho el backend para prototipos
+- Supabase hace que registrarse y loguearse sea sencillo, pero mantener la sesión y mostrar solo los datos del usuario fue más complicado de lo que pensaba. 
+- Crear, leer, editar y borrar datos parece simple, pero al hacerlo con autenticación, validaciones y categorías asociadas, terminé aprendiendo muchísimo sobre cómo se conectan todas las partes de una app real.
+
 

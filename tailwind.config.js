@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./frontend/index.html",
@@ -12,7 +12,7 @@ export default {
         'accent': '#FF8F9D',
         'text-dark': '#5D4037',
         'text-light': '#FFFFFF',
-        'background': '#FFF9F9',
+        'background': '#FFB5C0',
       }
     },
   },

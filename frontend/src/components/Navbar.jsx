@@ -12,27 +12,28 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-primary shadow-md">
+    <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-text-light">My Task App</Link>
+        <Link to="/" className="text-2xl font-bold text-secondary">My Task App</Link>
         <ul className="flex items-center space-x-6">
           {session ? (
             <>
-              <li><Link to="/" className="text-text-light hover:text-secondary font-semibold">Dashboard</Link></li>
-              <li><Link to="/categories" className="text-text-light hover:text-secondary font-semibold">Categories</Link></li>
+              <li><Link to="/" className="font-semibold text-text-dark hover:text-secondary transition-colors">Mis Tareas</Link></li>
+              <li><Link to="/categories" className="font-semibold text-text-dark hover:text-secondary transition-colors">Categorías</Link></li>
               <li>
-                <button 
+              <button 
                   onClick={handleLogout}
-                  className="bg-secondary text-text-light font-bold py-2 px-4 rounded-lg hover:bg-accent transition duration-300"
+                  className="bg-secondary text-black font-bold py-2 px-5 rounded-full hover:bg-accent transition-transform transform hover:scale-105 duration-300"
                 >
                   Logout
                 </button>
               </li>
+
             </>
           ) : (
             <>
-              <li><Link to="/login" className="text-text-light hover:text-secondary font-semibold">Login</Link></li>
-              <li><Link to="/register" className="bg-secondary text-text-light font-bold py-2 px-4 rounded-lg hover:bg-accent transition duration-300">Register</Link></li>
+              <li><Link to="/login" className="font-semibold text-text-dark hover:text-secondary transition-colors">Iniciar Sesión</Link></li>
+              <li><Link to="/register" className="bg-secondary text-white font-bold py-2 px-5 rounded-full hover:bg-accent transition-transform transform hover:scale-105 duration-300">Registrarse</Link></li>
             </>
           )}
         </ul>
